@@ -18,7 +18,7 @@
 
 ***
 
-## Latest news
+## Latest news111
 
 * 25/04/2019: Version 3.3.0 is out with JSON and SpEL support! Checkout what's new [here](https://github.com/j-easy/easy-rules/releases).
 * 09/04/2018: Version 3.2.0 is out with new features and bug fixes. Checkout what's new [here](https://github.com/j-easy/easy-rules/releases).
