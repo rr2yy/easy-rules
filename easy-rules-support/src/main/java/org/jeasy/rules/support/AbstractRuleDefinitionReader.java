@@ -37,9 +37,20 @@ import java.util.Map;
  */
 public abstract class AbstractRuleDefinitionReader implements RuleDefinitionReader {
 
+    @Override
     public List<RuleDefinition> read(Reader reader) throws Exception {
         List<RuleDefinition> ruleDefinitions = new ArrayList<>();
         Iterable<Map<String, Object>> rules = loadRules(reader);
+        for (Map<String, Object> rule : rules) {
+            ruleDefinitions.add(createRuleDefinition(rule));
+        }
+        return ruleDefinitions;
+    }
+
+    @Override
+    public List<RuleDefinition> read(String jsonArray) throws Exception {
+        List<RuleDefinition> ruleDefinitions = new ArrayList<>();
+        Iterable<Map<String, Object>> rules = loadRules(jsonArray);
         for (Map<String, Object> rule : rules) {
             ruleDefinitions.add(createRuleDefinition(rule));
         }
@@ -54,6 +65,16 @@ public abstract class AbstractRuleDefinitionReader implements RuleDefinitionRead
      * @throws Exception if unable to load rules
      */
     protected abstract Iterable<Map<String, Object>> loadRules(Reader reader) throws Exception;
+
+    /**
+     * Load rules from the given reader as an iterable of Maps.
+     *
+     * @param jsonArray to read json array
+     * @return an iterable of rule Maps
+     * @throws Exception if unable to load rules
+     */
+    protected abstract Iterable<Map<String, Object>> loadRules(String jsonArray) throws Exception;
+
 
     /**
      * Create a rule definition.

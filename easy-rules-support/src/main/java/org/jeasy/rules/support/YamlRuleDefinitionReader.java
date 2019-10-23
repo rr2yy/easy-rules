@@ -73,4 +73,14 @@ public class YamlRuleDefinitionReader extends AbstractRuleDefinitionReader {
         }
         return rulesList;
     }
+
+    @Override
+    protected Iterable<Map<String, Object>> loadRules(String reader) {
+        List<Map<String, Object>> rulesList = new ArrayList<>();
+        Iterable<Object> rules = yaml.loadAll(reader);
+        for (Object rule : rules) {
+            rulesList.add((Map<String, Object>) rule);
+        }
+        return rulesList;
+    }
 }

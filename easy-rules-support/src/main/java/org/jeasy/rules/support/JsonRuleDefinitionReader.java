@@ -72,4 +72,13 @@ public class JsonRuleDefinitionReader extends AbstractRuleDefinitionReader {
         return rulesList;
     }
 
+    @Override
+    protected Iterable<Map<String, Object>> loadRules(String jsonArray) throws Exception {
+        List<Map<String, Object>> rulesList = new ArrayList<>();
+        Object[] rules = objectMapper.readValue(jsonArray, Object[].class);
+        for (Object rule : rules) {
+            rulesList.add((Map<String, Object>) rule);
+        }
+        return rulesList;
+    }
 }

@@ -62,6 +62,16 @@ public class MVELRuleFactory extends AbstractRuleFactory<ParserContext> {
     }
 
     /**
+     * Create a new {@link MVELRule} from a json array.
+     *
+     * @param jsonArray as a json array
+     * @return a new rule
+     */
+    public Rule createRule(String jsonArray) throws Exception {
+        return createRule(jsonArray, new ParserContext());
+    }
+
+    /**
      * Create a new {@link MVELRule} from a Reader.
      *
      * The rule descriptor should contain a single rule definition.
@@ -74,6 +84,25 @@ public class MVELRuleFactory extends AbstractRuleFactory<ParserContext> {
      */
     public Rule createRule(Reader ruleDescriptor, ParserContext parserContext) throws Exception {
         List<RuleDefinition> ruleDefinitions = reader.read(ruleDescriptor);
+        if (ruleDefinitions.isEmpty()) {
+            throw new IllegalArgumentException("rule descriptor is empty");
+        }
+        return createRule(ruleDefinitions.get(0), parserContext);
+    }
+
+    /**
+     * Create a new {@link MVELRule} from a Reader.
+     *
+     * The rule descriptor should contain a single rule definition.
+     * If no rule definitions are found, a {@link IllegalArgumentException} will be thrown.
+     * If more than a rule is defined in the descriptor, the first rule will be returned.
+     *
+     * @param jsonArray as a json array
+     * @param parserContext the MVEL parser context
+     * @return a new rule
+     */
+    public Rule createRule(String jsonArray, ParserContext parserContext) throws Exception {
+        List<RuleDefinition> ruleDefinitions = reader.read(jsonArray);
         if (ruleDefinitions.isEmpty()) {
             throw new IllegalArgumentException("rule descriptor is empty");
         }
@@ -105,6 +134,7 @@ public class MVELRuleFactory extends AbstractRuleFactory<ParserContext> {
         return rules;
     }
 
+    @Override
     protected Rule createSimpleRule(RuleDefinition ruleDefinition, ParserContext parserContext) {
         MVELRule mvelRule = new MVELRule()
                 .name(ruleDefinition.getName())
